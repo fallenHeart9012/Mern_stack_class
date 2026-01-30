@@ -1,0 +1,17 @@
+<!-- HTML -->
+<input type="text" id="taskInput" placeholder="Enter task">
+<button onclick="addTask()">Add Task</button>
+<ul id="taskList"></ul>
+<script src="task_1_java.js"></script>
+<style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial;margin:24px;background:#f6f7fb;color:#111}
+    .card{max-width:720px;margin:0 auto;background:#fff;padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    .row{display:flex;gap:8px}
+    input{flex:1;padding:10px;border-radius:8px;border:1px solid #ddd}
+    button{padding:10px 12px;border-radius:8px;border:1px solid #bbb;background:#fff;cursor:pointer}
+    ul{list-style:none;padding:0;margin-top:12px}
+    li.task{display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;border:1px solid #eee;background:#fbfbff;margin-bottom:8px}
+    .task span{flex:1}
+    .controls button{margin-left:6px}
+    .small{font-size:13px;color:#666;margin-top:8px}
+  </style>

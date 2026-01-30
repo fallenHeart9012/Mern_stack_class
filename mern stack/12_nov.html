@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Capturing Example</title>
+    <script></script>
+    <style>
+        #outer {
+            background-color: lightcoral;
+            padding: 50px;
+            text-align: center;
+        }
+        #inner {
+            background-color: lightblue;
+            padding: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Event Capturing and stopPropagation() Demo</h2>
+
+    <div id="outer">
+        Outer Div
+        <div id="inner">Inner Div</div>
+    </div>
+
+    <script>
+        var inner = document.getElementById("inner");
+        var outer = document.getElementById("outer");
+
+        // Capturing phase listener on inner
+        inner.addEventListener("click", function() {
+            console.log("Inner clicked");
+            alert("Inner Div Clicked");
+        }, true);
+
+        // Capturing phase listener on outer
+        outer.addEventListener("click", function(e) {
+            e.stopPropagation(); // Prevents event from bubbling or capturing further
+            console.log("Outer clicked");
+            alert("Outer Div Clicked (Propagation Stopped)");
+        }, true);
+    </script>
+</body>
+</html>

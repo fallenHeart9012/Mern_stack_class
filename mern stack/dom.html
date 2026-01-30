@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Task 1 - Dynamic To-Do List by Mohammad Kaif(36)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial;margin:24px;background:#0829ac;color:#111}
+    .card{max-width:720px;margin:0 auto;background:#227a22;padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    .row{display:flex;gap:8px}
+    input{flex:1;padding:10px;border-radius:8px;border:1px solid #8a10e2}
+    button{padding:10px 12px;border-radius:8px;border:1px solid #10c86f;background:#aa1493;cursor:pointer}
+    ul{list-style:none;padding:0;margin-top:12px}
+    li.task{display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;border:1px solid #1ec2a6;background:#fbfbff;margin-bottom:8px}
+    .task span{flex:1}
+    .controls button{margin-left:6px}
+    .small{font-size:13px;color:#666;margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Dynamic To-Do List</h2>
+    <div class="row">
+      <input id="todoInput" style="background-color: brown;" placeholder="Enter a task" />
+      <button id="addBtn">Add Task</button>
+      <button id="clearBtn">Clear All</button>
+    </div>
+
+    <ul id="todoList"></ul>
+  </div>
+
+  <script>
+    // Task 1: Dynamic To-Do List with Edit/Delete and localStorage
+    (function(){
+      const KEY = 'task1_todos_v1';
+      const input = document.getElementById('todoInput');
+      const addBtn = document.getElementById('addBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const listEl = document.getElementById('todoList');
+
+      let tasks = JSON.parse(localStorage.getItem(KEY) || '[]');
+
+      function save(){ localStorage.setItem(KEY, JSON.stringify(tasks)); }
+      function render(){
+        listEl.innerHTML = '';
+        tasks.forEach((t, i) => {
+          const li = document.createElement('li');
+          li.className = 'task';
+
+          const span = document.createElement('span');
+          span.textContent = t;
+          li.appendChild(span);
+
+          const controls = document.createElement('div');
+          controls.className = 'controls';
+
+          const editBtn = document.createElement('button');
+          editBtn.textContent = 'Edit';
+          editBtn.addEventListener('click', () => {
+            const nv = prompt('Edit task', t);
+            if(nv === null) return;
+            const trimmed = nv.trim();
+            if(trimmed === '') { alert('Task cannot be empty'); return; }
+            tasks[i] = trimmed;
+            save(); render();
+          });
+
+          const delBtn = document.createElement('button');
+          delBtn.textContent = 'Delete';
+          delBtn.addEventListener('click', () => {
+            if(!confirm('Delete this task?')) return;
+            tasks.splice(i,1); save(); render();
+          });
+
+          controls.appendChild(editBtn);
+          controls.appendChild(delBtn);
+          li.appendChild(controls);
+          listEl.appendChild(li);
+        });
+      }
+
+      addBtn.addEventListener('click', () => {
+        const v = input.value.trim();
+        if(!v) { input.focus(); return; }
+        tasks.push(v);
+        input.value = '';
+        save(); render();
+      });
+
+      // Enter key adds task
+      input.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter'){ addBtn.click(); e.preventDefault(); }
+      });
+
+      clearBtn.addEventListener('click', () => {
+        if(!confirm('Clear all tasks?')) return;
+        tasks = []; save(); render();
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>
